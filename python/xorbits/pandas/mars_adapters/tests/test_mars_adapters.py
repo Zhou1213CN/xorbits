@@ -183,6 +183,18 @@ def test_dataframe_setattr(setup, dummy_df):
     assert not isinstance(dummy_df.baz, DataRef)
 
 
+def test_dataframe_getattr_id(setup, dummy_df):
+    dummy_df["id"] = (0.0, 1.0, 2.0)
+    id_values = dummy_df.id
+    assert isinstance(id_values, DataRef)
+
+    idx = 0
+    for i, val in id_values.items():
+        assert idx == i
+        assert val == float(idx)
+        idx += 1
+
+
 def test_dataframe_items(setup, dummy_df):
     for label, content in dummy_df.items():
         assert isinstance(content, DataRef)
